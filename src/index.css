@@ -1,120 +1,83 @@
 @import 'tailwindcss';
+@import '@xyflow/react/dist/style.css';
 
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@theme {
+  --font-sans: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+  --color-space-950: #07051a;
+  --color-space-900: #0d0a26;
+  --color-space-850: #130f33;
+  --color-space-800: #1a1540;
+  --color-space-700: #2a2263;
+  --color-space-600: #3b3185;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
+  --color-nebula-300: #c4b5fd;
+  --color-nebula-400: #a78bfa;
+  --color-nebula-500: #8b5cf6;
+  --color-nebula-600: #7c3aed;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-html {
-  scroll-behavior: smooth;
+html,
+body,
+#root {
+  height: 100%;
 }
 
 body {
   margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  background: #020617;
+  background: var(--color-space-950);
+  color: #e2e0f5;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+/* Layered starfield + nebula glow behind the whole app. */
+.space-bg {
+  background:
+    radial-gradient(1px 1px at 12% 18%, #fff8 50%, transparent 51%),
+    radial-gradient(1px 1px at 72% 8%, #fff6 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 88% 42%, #fff7 50%, transparent 51%),
+    radial-gradient(1px 1px at 34% 66%, #fff5 50%, transparent 51%),
+    radial-gradient(1px 1px at 55% 88%, #fff6 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 6% 84%, #fff5 50%, transparent 51%),
+    radial-gradient(1px 1px at 46% 30%, #fff4 50%, transparent 51%),
+    radial-gradient(900px 500px at 85% -10%, #7c3aed33, transparent 70%),
+    radial-gradient(700px 500px at -10% 110%, #4f46e522, transparent 70%),
+    var(--color-space-950);
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+.panel {
+  background: color-mix(in oklab, var(--color-space-900) 82%, transparent);
+  border: 1px solid
+    color-mix(in oklab, var(--color-nebula-500) 22%, transparent);
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+.glow {
+  box-shadow:
+    0 0 0 1px #8b5cf655,
+    0 0 24px -4px #8b5cf688;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #3b318588;
+  border-radius: 8px;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* React Flow dark overrides */
+.react-flow {
+  --xy-background-color: transparent;
+  --xy-edge-stroke: #6d5bd0;
+  --xy-controls-button-background-color: #1a1540;
+  --xy-controls-button-background-color-hover: #2a2263;
+  --xy-controls-button-color: #c4b5fd;
+  --xy-controls-button-border-color: #3b3185;
+  --xy-minimap-background-color: #0d0a26;
+  --xy-attribution-background-color: transparent;
 }
